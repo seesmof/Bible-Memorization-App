@@ -1,0 +1,3 @@
+- I want to make a grid of Bible Books that will show the progress on each tile.
+- For the verse I want to make a fleshcard where a reference is on one side and the content on the other side.
+- For the fetching I want to use bolls.life API.
