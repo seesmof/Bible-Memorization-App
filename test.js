@@ -1,4 +1,8 @@
-import { readFileSync } from "fs";
-
-const file = readFileSync("./Bible.txt", "utf-8");
-console.log(file);
+fetch(`https://bible.helloao.org/api/available_translations.json`)
+  .then((request) => request.json())
+  .then((availableTranslations) => {
+    console.log(
+      "The API has the following translations:",
+      availableTranslations,
+    );
+  });
