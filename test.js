@@ -1,8 +1,9 @@
-fetch(`https://bible.helloao.org/api/available_translations.json`)
-  .then((request) => request.json())
-  .then((availableTranslations) => {
-    console.log(
-      "The API has the following translations:",
-      availableTranslations,
-    );
-  });
+const express = require("express");
+const app = express();
+const port = 3000;
+
+app.get("/", (req, res) => {
+  res.send("Jesus is LORD");
+});
+
+app.listen(port, () => console.log(`Server running on port ${port}.`));
