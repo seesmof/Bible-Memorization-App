@@ -39,11 +39,11 @@ export default function Page() {
   return (
     <div className="bg-sky-50 min-h-screen">
       <div className="max-w-3xl mx-auto flex items-center justify-center flex-col p-3 gap-3">
-        <section className="bg-white rounded-md p-3 flex gap-3 w-full">
+        <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
           <select
             name="translationSelect"
             id="translationSelect"
-            className="select w-32 flex-1"
+            className="select w-full md:w-32 md:flex-1"
           >
             <option value="UKRK" defaultChecked>
               Біблія Куліша
@@ -53,21 +53,21 @@ export default function Page() {
           <input
             type="text"
             placeholder="Book name..."
-            className="input w-32 flex-1"
+            className="input w-full md:w-32 md:flex-1"
             id="BookInput"
             name="BookInput"
           />
           <input
             type="text"
             placeholder="Chapter number..."
-            className="input w-32 flex-1"
+            className="input w-full md:w-32 md:flex-1"
             id="chapterInput"
             name="chapterInput"
           />
           <input
             type="text"
             placeholder="Verse number..."
-            className="input w-32 flex-1"
+            className="input w-full md:w-32 md:flex-1"
             id="verseInput"
             name="verseInput"
           />
