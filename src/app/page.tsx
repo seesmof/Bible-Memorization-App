@@ -381,6 +381,7 @@ export default function Page() {
   const [selectedBook, setSelectedBook] = useState<string>(
     translation === "ESV" ? "Genesis" : "Буття",
   );
+  const [chapter, setChapter] = useState<number>(1);
 
   useEffect(() => {
     setSelectedBook(translation === "ESV" ? "Genesis" : "Буття");
@@ -392,21 +393,21 @@ export default function Page() {
         <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
           {/* Translation Select */}
           <select
-            className="select w-full md:w-32 md:flex-1"
+            className="select w-full md:w-24"
             value={translation}
             onChange={(e) =>
               setTranslation(e.target.value === "UKRK" ? "UKRK" : "ESV")
             }
           >
             <option value="UKRK" defaultChecked>
-              Біблія Куліша
+              UKRK
             </option>
-            <option value="ESV">English Standard Version</option>
+            <option value="ESV">ESV</option>
           </select>
 
           {/* Book Select */}
           <select
-            className="select w-full md:w-32 md:flex-1"
+            className="select w-full md:w-44"
             value={selectedBook}
             onChange={(e) => setSelectedBook(e.target.value)}
           >
@@ -421,19 +422,34 @@ export default function Page() {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            placeholder="Chapter number..."
-            className="input w-full md:w-32 md:flex-1"
-            id="chapterInput"
-            name="chapterInput"
-          />
+
+          {/* Chapter Select */}
+          <select
+            className="select w-full md:w-32"
+            value={chapter}
+            onChange={(e) => setChapter(Number.parseInt(e.target.value))}
+          >
+            {Array.from(
+              new Array(
+                BibleBooksData.filter(
+                  translation === "ESV"
+                    ? (Book) => Book.EnglishName === selectedBook
+                    : (Book) => Book.UkrainianName === selectedBook,
+                )[0].numberOfChapters,
+              ),
+              (x, i) => i + 1,
+            ).map((number, index) => (
+              <option value={number} key={index}>
+                {number}
+              </option>
+            ))}
+          </select>
+
+          {/* Verse Number Input */}
           <input
             type="text"
             placeholder="Verse number..."
             className="input w-full md:w-32 md:flex-1"
-            id="verseInput"
-            name="verseInput"
           />
           <button className="btn">Add</button>
         </section>
