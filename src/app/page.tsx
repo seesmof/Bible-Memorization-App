@@ -382,6 +382,7 @@ export default function Page() {
     translation === "ESV" ? "Genesis" : "Буття",
   );
   const [chapter, setChapter] = useState<number>(1);
+  const [verse, setVerse] = useState<number>(1);
 
   useEffect(() => {
     setSelectedBook(translation === "ESV" ? "Genesis" : "Буття");
@@ -393,7 +394,7 @@ export default function Page() {
         <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
           {/* Translation Select */}
           <select
-            className="select w-full md:w-24"
+            className="select w-full flex-1"
             value={translation}
             onChange={(e) =>
               setTranslation(e.target.value === "UKRK" ? "UKRK" : "ESV")
@@ -407,7 +408,7 @@ export default function Page() {
 
           {/* Book Select */}
           <select
-            className="select w-full md:w-44"
+            className="select w-full flex-1"
             value={selectedBook}
             onChange={(e) => setSelectedBook(e.target.value)}
           >
@@ -425,7 +426,7 @@ export default function Page() {
 
           {/* Chapter Select */}
           <select
-            className="select w-full md:w-32"
+            className="select w-full flex-1"
             value={chapter}
             onChange={(e) => setChapter(Number.parseInt(e.target.value))}
           >
@@ -447,9 +448,11 @@ export default function Page() {
 
           {/* Verse Number Input */}
           <input
-            type="text"
+            type="number"
             placeholder="Verse number..."
-            className="input w-full md:w-32 md:flex-1"
+            className="input w-full flex-1"
+            value={verse}
+            onChange={(e) => setVerse(Number.parseInt(e.target.value))}
           />
           <button className="btn">Add</button>
         </section>
