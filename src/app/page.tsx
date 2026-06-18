@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Verse {
   text: string;
@@ -378,14 +378,20 @@ const BibleBooksData: BibleBook[] = [
 
 export default function Page() {
   const [translation, setTranslation] = useState<"UKRK" | "ESV">("ESV");
+  const [selectedBook, setSelectedBook] = useState<string>(
+    translation === "ESV" ? "Genesis" : "Буття",
+  );
+
+  useEffect(() => {
+    setSelectedBook(translation === "ESV" ? "Genesis" : "Буття");
+  }, [translation]);
 
   return (
     <div className="bg-sky-50 min-h-screen">
       <div className="max-w-3xl mx-auto flex items-center justify-center flex-col p-3 gap-3">
         <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
+          {/* Translation Select */}
           <select
-            name="translationSelect"
-            id="translationSelect"
             className="select w-full md:w-32 md:flex-1"
             value={translation}
             onChange={(e) =>
@@ -397,16 +403,21 @@ export default function Page() {
             </option>
             <option value="ESV">English Standard Version</option>
           </select>
+
+          {/* Book Select */}
           <select
-            name="BookSelect"
-            id="BookSelect"
             className="select w-full md:w-32 md:flex-1"
+            value={selectedBook}
+            onChange={(e) => setSelectedBook(e.target.value)}
           >
-            {BibleBooksData.map((BookName, index) => (
-              <option value={BookName.id} key={index}>
-                {translation === "ESV"
-                  ? BookName.EnglishName
-                  : BookName.UkrainianName}
+            {BibleBooksData.map((Book, index) => (
+              <option
+                value={
+                  translation === "ESV" ? Book.EnglishName : Book.UkrainianName
+                }
+                key={index}
+              >
+                {translation === "ESV" ? Book.EnglishName : Book.UkrainianName}
               </option>
             ))}
           </select>
