@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Verse {
   text: string;
@@ -9,15 +9,15 @@ interface Verse {
 
 const cards: Verse[] = [
   {
-    reference: "ISA 44:8",
+    reference: "Ісая 44:8",
     text: "Не бійтесь і не лякайтесь. Хиба ж я з давна не вістив, не прорікав вам? Ви сьвідки мої. Чи ж є ще Бог крім мене? Нї, нема иншої твердинї; я нїякої не знаю.",
   },
   {
-    reference: "MAT 6:12",
+    reference: "Матей 6:12",
     text: "І прости нам довги наші, як і ми прощаємо довжникам нашим.",
   },
   {
-    reference: "ROM 8:31",
+    reference: "До римлян 8:31",
     text: "Що ж скажемо на се? Коли Бог за нас, хто на нас?",
   },
 ];
@@ -37,406 +37,325 @@ const Card = ({ card }: { card: Verse }) => {
 
 interface BibleBook {
   id: number;
-  EnglishName: string;
-  UkrainianName: string;
+  name: string;
   numberOfChapters: number;
 }
 
 const BibleBooksData: BibleBook[] = [
   {
     id: 1,
-    EnglishName: "Genesis",
-    UkrainianName: "Буття",
+    name: "Буття",
     numberOfChapters: 50,
   },
   {
     id: 2,
-    EnglishName: "Exodus",
-    UkrainianName: "Вихід",
+    name: "Вихід",
     numberOfChapters: 40,
   },
   {
     id: 3,
-    EnglishName: "Leviticus",
-    UkrainianName: "Левит",
+    name: "Левит",
     numberOfChapters: 27,
   },
   {
     id: 4,
-    EnglishName: "Numbers",
-    UkrainianName: "Числа",
+    name: "Числа",
     numberOfChapters: 36,
   },
   {
     id: 5,
-    EnglishName: "Deuteronomy",
-    UkrainianName: "Второзаконня",
+    name: "Второзаконня",
     numberOfChapters: 34,
   },
   {
     id: 6,
-    EnglishName: "Joshua",
-    UkrainianName: "Iсус Навин",
+    name: "Iсус Навин",
     numberOfChapters: 24,
   },
   {
     id: 7,
-    EnglishName: "Judges",
-    UkrainianName: "Судді",
+    name: "Судді",
     numberOfChapters: 21,
   },
-  { id: 8, EnglishName: "Ruth", UkrainianName: "Рут", numberOfChapters: 4 },
+  { id: 8, name: "Рут", numberOfChapters: 4 },
   {
     id: 9,
-    EnglishName: "1 Samuel",
-    UkrainianName: "I Самуїл",
+    name: "I Самуїл",
     numberOfChapters: 31,
   },
   {
     id: 10,
-    EnglishName: "2 Samuel",
-    UkrainianName: "II Самуїл",
+    name: "II Самуїл",
     numberOfChapters: 24,
   },
   {
     id: 11,
-    EnglishName: "1 Kings",
-    UkrainianName: "I Царі",
+    name: "I Царі",
     numberOfChapters: 22,
   },
   {
     id: 12,
-    EnglishName: "2 Kings",
-    UkrainianName: "II Царі",
+    name: "II Царі",
     numberOfChapters: 25,
   },
   {
     id: 13,
-    EnglishName: "1 Chronicles",
-    UkrainianName: "I Хроніка",
+    name: "I Хроніка",
     numberOfChapters: 29,
   },
   {
     id: 14,
-    EnglishName: "2 Chronicles",
-    UkrainianName: "II Хроніка",
+    name: "II Хроніка",
     numberOfChapters: 36,
   },
-  { id: 15, EnglishName: "Ezra", UkrainianName: "Ездра", numberOfChapters: 10 },
+  { id: 15, name: "Ездра", numberOfChapters: 10 },
   {
     id: 16,
-    EnglishName: "Nehemiah",
-    UkrainianName: "Неємія",
+    name: "Неємія",
     numberOfChapters: 13,
   },
   {
     id: 17,
-    EnglishName: "Esther",
-    UkrainianName: "Естера",
+    name: "Естера",
     numberOfChapters: 10,
   },
-  { id: 18, EnglishName: "Job", UkrainianName: "Іов", numberOfChapters: 42 },
+  { id: 18, name: "Іов", numberOfChapters: 42 },
   {
     id: 19,
-    EnglishName: "Psalms",
-    UkrainianName: "Псалми",
+    name: "Псалми",
     numberOfChapters: 150,
   },
   {
     id: 20,
-    EnglishName: "Proverbs",
-    UkrainianName: "Приповідки",
+    name: "Приповідки",
     numberOfChapters: 31,
   },
   {
     id: 21,
-    EnglishName: "Ecclesiastes",
-    UkrainianName: "Проповідник",
+    name: "Проповідник",
     numberOfChapters: 12,
   },
   {
     id: 22,
-    EnglishName: "Song of Solomon",
-    UkrainianName: "Пісня пісень",
+    name: "Пісня пісень",
     numberOfChapters: 8,
   },
   {
     id: 23,
-    EnglishName: "Isaiah",
-    UkrainianName: "Ісая",
+    name: "Ісая",
     numberOfChapters: 66,
   },
   {
     id: 24,
-    EnglishName: "Jeremiah",
-    UkrainianName: "Єремiя",
+    name: "Єремiя",
     numberOfChapters: 52,
   },
   {
     id: 25,
-    EnglishName: "Lamentations",
-    UkrainianName: "Плач Єремiї",
+    name: "Плач Єремiї",
     numberOfChapters: 5,
   },
   {
     id: 26,
-    EnglishName: "Ezekiel",
-    UkrainianName: "Єзекiїль",
+    name: "Єзекiїль",
     numberOfChapters: 48,
   },
   {
     id: 27,
-    EnglishName: "Daniel",
-    UkrainianName: "Даниїл",
+    name: "Даниїл",
     numberOfChapters: 12,
   },
-  { id: 28, EnglishName: "Hosea", UkrainianName: "Осiя", numberOfChapters: 14 },
-  { id: 29, EnglishName: "Joel", UkrainianName: "Йоіл", numberOfChapters: 3 },
-  { id: 30, EnglishName: "Amos", UkrainianName: "Амос", numberOfChapters: 9 },
+  { id: 28, name: "Осiя", numberOfChapters: 14 },
+  { id: 29, name: "Йоіл", numberOfChapters: 3 },
+  { id: 30, name: "Амос", numberOfChapters: 9 },
   {
     id: 31,
-    EnglishName: "Obadiah",
-    UkrainianName: "Овдiй",
+    name: "Овдiй",
     numberOfChapters: 1,
   },
-  { id: 32, EnglishName: "Jonah", UkrainianName: "Йона", numberOfChapters: 4 },
-  { id: 33, EnglishName: "Micah", UkrainianName: "Міхей", numberOfChapters: 7 },
-  { id: 34, EnglishName: "Nahum", UkrainianName: "Наум", numberOfChapters: 3 },
+  { id: 32, name: "Йона", numberOfChapters: 4 },
+  { id: 33, name: "Міхей", numberOfChapters: 7 },
+  { id: 34, name: "Наум", numberOfChapters: 3 },
   {
     id: 35,
-    EnglishName: "Habakkuk",
-    UkrainianName: "Авакум",
+    name: "Авакум",
     numberOfChapters: 3,
   },
   {
     id: 36,
-    EnglishName: "Zephaniah",
-    UkrainianName: "Софонiя",
+    name: "Софонiя",
     numberOfChapters: 3,
   },
   {
     id: 37,
-    EnglishName: "Haggai",
-    UkrainianName: "Аггей",
+    name: "Аггей",
     numberOfChapters: 2,
   },
   {
     id: 38,
-    EnglishName: "Zechariah",
-    UkrainianName: "Захарiя",
+    name: "Захарiя",
     numberOfChapters: 14,
   },
   {
     id: 39,
-    EnglishName: "Malachi",
-    UkrainianName: "Малахія",
+    name: "Малахія",
     numberOfChapters: 4,
   },
   {
     id: 40,
-    EnglishName: "Matthew",
-    UkrainianName: "Матей",
+    name: "Матей",
     numberOfChapters: 28,
   },
-  { id: 41, EnglishName: "Mark", UkrainianName: "Марко", numberOfChapters: 16 },
-  { id: 42, EnglishName: "Luke", UkrainianName: "Лука", numberOfChapters: 24 },
-  { id: 43, EnglishName: "John", UkrainianName: "Йоан", numberOfChapters: 21 },
+  { id: 41, name: "Марко", numberOfChapters: 16 },
+  { id: 42, name: "Лука", numberOfChapters: 24 },
+  { id: 43, name: "Йоан", numberOfChapters: 21 },
   {
     id: 44,
-    EnglishName: "Acts",
-    UkrainianName: "Діяння",
+    name: "Діяння",
     numberOfChapters: 28,
   },
   {
     id: 45,
-    EnglishName: "Romans",
-    UkrainianName: "До римлян",
+    name: "До римлян",
     numberOfChapters: 16,
   },
   {
     id: 46,
-    EnglishName: "1 Corinthians",
-    UkrainianName: "I до Корінтян",
+    name: "I до Корінтян",
     numberOfChapters: 16,
   },
   {
     id: 47,
-    EnglishName: "2 Corinthians",
-    UkrainianName: "II до Корінтян",
+    name: "II до Корінтян",
     numberOfChapters: 13,
   },
   {
     id: 48,
-    EnglishName: "Galatians",
-    UkrainianName: "До Галатiв",
+    name: "До Галатiв",
     numberOfChapters: 6,
   },
   {
     id: 49,
-    EnglishName: "Ephesians",
-    UkrainianName: "До Ефесян",
+    name: "До Ефесян",
     numberOfChapters: 6,
   },
   {
     id: 50,
-    EnglishName: "Philippians",
-    UkrainianName: "До Филипʼян",
+    name: "До Филипʼян",
     numberOfChapters: 4,
   },
   {
     id: 51,
-    EnglishName: "Colossians",
-    UkrainianName: "До Колосян",
+    name: "До Колосян",
     numberOfChapters: 4,
   },
   {
     id: 52,
-    EnglishName: "1 Thessalonians",
-    UkrainianName: "I до Солунян",
+    name: "I до Солунян",
     numberOfChapters: 5,
   },
   {
     id: 53,
-    EnglishName: "2 Thessalonians",
-    UkrainianName: "II до Солунян",
+    name: "II до Солунян",
     numberOfChapters: 3,
   },
   {
     id: 54,
-    EnglishName: "1 Timothy",
-    UkrainianName: "I до Тимотея",
+    name: "I до Тимотея",
     numberOfChapters: 6,
   },
   {
     id: 55,
-    EnglishName: "2 Timothy",
-    UkrainianName: "II до Тимотея",
+    name: "II до Тимотея",
     numberOfChapters: 4,
   },
   {
     id: 56,
-    EnglishName: "Titus",
-    UkrainianName: "До Тита",
+    name: "До Тита",
     numberOfChapters: 3,
   },
   {
     id: 57,
-    EnglishName: "Philemon",
-    UkrainianName: "До Филимона",
+    name: "До Филимона",
     numberOfChapters: 1,
   },
   {
     id: 58,
-    EnglishName: "Hebrews",
-    UkrainianName: "До євреїв",
+    name: "До євреїв",
     numberOfChapters: 13,
   },
-  { id: 59, EnglishName: "James", UkrainianName: "Якова", numberOfChapters: 5 },
+  { id: 59, name: "Якова", numberOfChapters: 5 },
   {
     id: 60,
-    EnglishName: "1 Peter",
-    UkrainianName: "I Послання Петра",
+    name: "I Послання Петра",
     numberOfChapters: 5,
   },
   {
     id: 61,
-    EnglishName: "2 Peter",
-    UkrainianName: "II Послання Петра",
+    name: "II Послання Петра",
     numberOfChapters: 3,
   },
   {
     id: 62,
-    EnglishName: "1 John",
-    UkrainianName: "I Послання Йоана",
+    name: "I Послання Йоана",
     numberOfChapters: 5,
   },
   {
     id: 63,
-    EnglishName: "2 John",
-    UkrainianName: "II Послання Йоана",
+    name: "II Послання Йоана",
     numberOfChapters: 1,
   },
   {
     id: 64,
-    EnglishName: "3 John",
-    UkrainianName: "III Послання Йоана",
+    name: "III Послання Йоана",
     numberOfChapters: 1,
   },
   {
     id: 65,
-    EnglishName: "Jude",
-    UkrainianName: "Послання Юди",
+    name: "Послання Юди",
     numberOfChapters: 1,
   },
   {
     id: 66,
-    EnglishName: "Revelation",
-    UkrainianName: "Обʼявлення",
+    name: "Обʼявлення",
     numberOfChapters: 22,
   },
 ];
 
 export default function Page() {
-  const [translation, setTranslation] = useState<"UKRK" | "ESV">("ESV");
   const [selectedBook, setSelectedBook] = useState<string>(
-    translation === "ESV" ? "Genesis" : "Буття",
+    BibleBooksData[0].name,
   );
   const [chapter, setChapter] = useState<number>(1);
   const [verse, setVerse] = useState<number>(1);
-
-  useEffect(() => {
-    setSelectedBook(translation === "ESV" ? "Genesis" : "Буття");
-  }, [translation]);
 
   return (
     <div className="bg-sky-50 min-h-screen">
       <div className="max-w-3xl mx-auto flex items-center justify-center flex-col p-3 gap-3">
         <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
-          {/* Translation Select */}
-          <select
-            className="select w-full flex-1"
-            value={translation}
-            onChange={(e) =>
-              setTranslation(e.target.value === "UKRK" ? "UKRK" : "ESV")
-            }
-          >
-            <option value="UKRK" defaultChecked>
-              UKRK
-            </option>
-            <option value="ESV">ESV</option>
-          </select>
-
           {/* Book Select */}
           <select
-            className="select w-full flex-1"
+            className="select w-full sm:flex-1"
             value={selectedBook}
             onChange={(e) => setSelectedBook(e.target.value)}
           >
             {BibleBooksData.map((Book, index) => (
-              <option
-                value={
-                  translation === "ESV" ? Book.EnglishName : Book.UkrainianName
-                }
-                key={index}
-              >
-                {translation === "ESV" ? Book.EnglishName : Book.UkrainianName}
+              <option value={Book.name} key={index}>
+                {Book.name}
               </option>
             ))}
           </select>
 
           {/* Chapter Select */}
           <select
-            className="select w-full flex-1"
+            className="select w-full sm:flex-1"
             value={chapter}
             onChange={(e) => setChapter(Number.parseInt(e.target.value))}
           >
             {Array.from(
               new Array(
-                BibleBooksData.filter(
-                  translation === "ESV"
-                    ? (Book) => Book.EnglishName === selectedBook
-                    : (Book) => Book.UkrainianName === selectedBook,
-                )[0].numberOfChapters,
+                BibleBooksData.filter((Book) => Book.name === selectedBook)[0]
+                  .numberOfChapters,
               ),
               (x, i) => i + 1,
             ).map((number, index) => (
@@ -449,10 +368,10 @@ export default function Page() {
           {/* Verse Number Input */}
           <input
             type="number"
-            placeholder="Verse number..."
-            className="input w-full flex-1"
+            className="input w-full sm:flex-1"
             value={verse}
             onChange={(e) => setVerse(Number.parseInt(e.target.value))}
+            min={1}
           />
           <button className="btn">Add</button>
         </section>
