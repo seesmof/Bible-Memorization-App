@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 interface Verse {
   text: string;
@@ -111,17 +111,39 @@ const BibleBooksData: BibleBook[] = [
   { id: 66, abbr: "REV", name: "Обʼявлення", numberOfChapters: 22 },
 ];
 
+const apiUrl = "http://127.0.0.1:8000/api/v1";
+
 export default function Page() {
   const [selectedBook, setSelectedBook] = useState<string>(
     BibleBooksData[0].name,
   );
   const [chapter, setChapter] = useState<number>(1);
   const [verse, setVerse] = useState<number>(1);
+  const [fetchedVerse, setFetchedVerse] = useState<string>("");
+
+  const fetchVerse = async () => {
+    const BookAbbr = BibleBooksData.filter(
+      (Book) => Book.name === selectedBook,
+    )[0].abbr;
+    const url = `${apiUrl}/${BookAbbr}/${chapter}/${verse}`;
+    console.log(url);
+    const data = await fetch(url);
+    const response = await data.json();
+    setFetchedVerse(response.verse);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchVerse();
+  };
 
   return (
     <div className="bg-sky-50 min-h-screen">
       <div className="max-w-3xl mx-auto flex items-center justify-center flex-col p-3 gap-3">
-        <section className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full">
+        <form
+          className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full"
+          onSubmit={handleSubmit}
+        >
           {/* Book Select */}
           <select
             className="select w-full sm:flex-1"
@@ -163,7 +185,9 @@ export default function Page() {
             min={1}
           />
           <button className="btn">Add</button>
-        </section>
+        </form>
+
+        <p>{fetchedVerse}</p>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
           {cards.map((card, index) => (
