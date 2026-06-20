@@ -129,20 +129,18 @@ export default function Page() {
     e.preventDefault();
     const verse = await fetchVerse();
     addCard(verse);
-    resetInputs();
-  };
-
-  const resetInputs = () => {
-    setBookName(BibleBooksData[0].name);
-    setChapterNumber(1);
-    setVerseNumber(1);
   };
 
   const addCard = (verse: string) => {
+    const calculatedReference = `${BookName} ${chapterNumber}:${verseNumber}`;
+    const references = verses.map((verse) => verse.reference);
+    if (references.includes(calculatedReference)) return;
+
     const newVerse: Verse = {
       text: verse,
-      reference: `${BookName} ${chapterNumber}:${verseNumber}`,
+      reference: calculatedReference,
     };
+
     setVerses([newVerse, ...verses]);
   };
 
