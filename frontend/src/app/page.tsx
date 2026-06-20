@@ -7,22 +7,7 @@ interface Verse {
   reference: string;
 }
 
-const cards: Verse[] = [
-  {
-    reference: "Ісая 44:8",
-    text: "Не бійтесь і не лякайтесь. Хиба ж я з давна не вістив, не прорікав вам? Ви сьвідки мої. Чи ж є ще Бог крім мене? Нї, нема иншої твердинї; я нїякої не знаю.",
-  },
-  {
-    reference: "Матей 6:12",
-    text: "І прости нам довги наші, як і ми прощаємо довжникам нашим.",
-  },
-  {
-    reference: "До римлян 8:31",
-    text: "Що ж скажемо на се? Коли Бог за нас, хто на нас?",
-  },
-];
-
-const Card = ({ card }: { card: Verse }) => {
+const Card = ({ verse }: { verse: Verse }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -30,7 +15,7 @@ const Card = ({ card }: { card: Verse }) => {
       className="bg-white rounded-md p-3 aspect-square flex justify-center items-center text-center cursor-pointer"
       onClick={() => setIsOpen((isOpen) => !isOpen)}
     >
-      {isOpen ? <p>{card.text}</p> : <p>{card.reference}</p>}
+      {isOpen ? <p>{verse.text}</p> : <p>{verse.reference}</p>}
     </div>
   );
 };
@@ -114,27 +99,41 @@ const BibleBooksData: BibleBook[] = [
 const apiUrl = "http://127.0.0.1:8000/api/v1";
 
 export default function Page() {
-  const [selectedBook, setSelectedBook] = useState<string>(
-    BibleBooksData[0].name,
-  );
-  const [chapter, setChapter] = useState<number>(1);
-  const [verse, setVerse] = useState<number>(1);
-  const [fetchedVerse, setFetchedVerse] = useState<string>("");
+  const [BookName, setBookName] = useState<string>(BibleBooksData[0].name);
+  const [chapterNumber, setChapterNumber] = useState<number>(1);
+  const [verseNumber, setVerseNumber] = useState<number>(1);
+
+  const [verses, setVerses] = useState<Verse[]>([]);
 
   const fetchVerse = async () => {
-    const BookAbbr = BibleBooksData.filter(
-      (Book) => Book.name === selectedBook,
-    )[0].abbr;
-    const url = `${apiUrl}/${BookAbbr}/${chapter}/${verse}`;
+    const BookAbbr = BibleBooksData.filter((Book) => Book.name === BookName)[0]
+      .abbr;
+    const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/${verseNumber}`;
     console.log(url);
     const data = await fetch(url);
     const response = await data.json();
-    setFetchedVerse(response.verse);
+    return response.verse;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchVerse();
+    const verse = await fetchVerse();
+    addCard(verse);
+    resetInputs();
+  };
+
+  const resetInputs = () => {
+    setBookName(BibleBooksData[0].name);
+    setChapterNumber(1);
+    setVerseNumber(1);
+  };
+
+  const addCard = (verse: string) => {
+    const newVerse: Verse = {
+      text: verse,
+      reference: `${BookName} ${chapterNumber}:${verseNumber}`,
+    };
+    setVerses([newVerse, ...verses]);
   };
 
   return (
@@ -147,8 +146,8 @@ export default function Page() {
           {/* Book Select */}
           <select
             className="select w-full sm:flex-1"
-            value={selectedBook}
-            onChange={(e) => setSelectedBook(e.target.value)}
+            value={BookName}
+            onChange={(e) => setBookName(e.target.value)}
           >
             {BibleBooksData.map((Book, index) => (
               <option value={Book.name} key={index}>
@@ -160,12 +159,12 @@ export default function Page() {
           {/* Chapter Select */}
           <select
             className="select w-full sm:flex-1"
-            value={chapter}
-            onChange={(e) => setChapter(Number.parseInt(e.target.value))}
+            value={chapterNumber}
+            onChange={(e) => setChapterNumber(Number.parseInt(e.target.value))}
           >
             {Array.from(
               new Array(
-                BibleBooksData.filter((Book) => Book.name === selectedBook)[0]
+                BibleBooksData.filter((Book) => Book.name === BookName)[0]
                   .numberOfChapters,
               ),
               (x, i) => i + 1,
@@ -180,19 +179,19 @@ export default function Page() {
           <input
             type="number"
             className="input w-full sm:flex-1"
-            value={verse}
-            onChange={(e) => setVerse(Number.parseInt(e.target.value))}
+            value={verseNumber}
+            onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
             min={1}
           />
           <button className="btn">Add</button>
         </form>
 
-        <p>{fetchedVerse}</p>
-
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
-          {cards.map((card, index) => (
-            <Card card={card} key={index} />
-          ))}
+          {verses.length !== 0 ? (
+            verses.map((verse, index) => <Card verse={verse} key={index} />)
+          ) : (
+            <p>Будь ласка додайте вірші...</p>
+          )}
         </section>
       </div>
     </div>
