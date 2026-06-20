@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 interface Verse {
   text: string;
@@ -115,6 +115,16 @@ export default function Page() {
     return response.verse;
   };
 
+  useEffect(() => {
+    let saved = localStorage.getItem("verses");
+    if (saved !== null) setVerses(JSON.parse(saved));
+    else setVerses([]);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("verses", JSON.stringify(verses));
+  }, [verses]);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const verse = await fetchVerse();
@@ -187,10 +197,10 @@ export default function Page() {
         </form>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
-          {verses.length !== 0 ? (
+          {verses && verses.length !== 0 ? (
             verses.map((verse, index) => <Card verse={verse} key={index} />)
           ) : (
-            <p>Будь ласка додайте вірші...</p>
+            <p>Будь ласка, додайте вірші...</p>
           )}
         </section>
       </div>
