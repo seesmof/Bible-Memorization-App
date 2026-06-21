@@ -96,7 +96,8 @@ const BibleBooksData: BibleBook[] = [
   { id: 66, abbr: "REV", name: "Обʼявлення", numberOfChapters: 22 },
 ];
 
-const apiUrl = "http://127.0.0.1:8000/api/v1";
+const apiUrl =
+  "https://bible-memorization-app-93051967.fastapicloud.dev/api/v1";
 
 export default function Page() {
   const [BookName, setBookName] = useState<string>(BibleBooksData[0].name);
