@@ -191,7 +191,7 @@ export default function Page() {
           onSubmit={handleSubmit}
         >
           {/* Book Select */}
-          <div className="flex flex-col gap-1 sm:flex-1">
+          <div className="flex flex-col gap-1">
             <label htmlFor="BookSelect" className="text-sm label">
               Книга
             </label>
@@ -210,7 +210,7 @@ export default function Page() {
           </div>
 
           {/* Chapter Select */}
-          <div className="flex flex-col gap-1 sm:flex-1">
+          <div className="flex flex-col gap-1">
             <label htmlFor="chapterSelect" className="text-sm label">
               Розділ
             </label>
