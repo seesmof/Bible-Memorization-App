@@ -124,12 +124,13 @@ export default function Page() {
   const [verseNumber, setVerseNumber] = useState<number>(1);
 
   const [verses, setVerses] = useState<Verse[]>([]);
+  const [verseOptions, setVerseOptions] = useState([]);
 
   const fetchVerse = async () => {
-    const BookAbbr = BibleBooksData.filter((Book) => Book.name === BookName)[0]
-      .abbr;
+    const BookAbbr = BibleBooksData.find(
+      (Book) => Book.name === BookName,
+    )?.abbr;
     const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/${verseNumber}`;
-    console.log(url);
     const response = await fetch(url);
 
     if (!response.ok) throw new Error(response.statusText);
@@ -137,6 +138,22 @@ export default function Page() {
     const data = await response.json();
     return data.verse;
   };
+
+  useEffect(() => {
+    const fetchVerses = async () => {
+      const BookAbbr = BibleBooksData.find(
+        (Book) => Book.name === BookName,
+      )?.abbr;
+      const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/verse`;
+      const response = await fetch(url);
+
+      if (!response.ok) throw new Error(response.statusText);
+
+      const data = await response.json();
+      if (data) setVerseOptions(data.verses);
+    };
+    fetchVerses();
+  }, [BookName, chapterNumber]);
 
   useEffect(() => {
     const saved = localStorage.getItem("verses");
@@ -224,14 +241,18 @@ export default function Page() {
             <label htmlFor="verseSelect" className="text-sm label">
               Вірш
             </label>
-            <input
-              type="number"
-              className="input w-full sm:flex-1"
+            <select
+              id="verseSelect"
+              className="select"
               value={verseNumber}
               onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
-              min={1}
-              id="verseSelect"
-            />
+            >
+              {verseOptions.map((verse, index) => (
+                <option value={verse} key={index}>
+                  {verse}
+                </option>
+              ))}
+            </select>
           </div>
 
           <button className="btn self-end">Додати</button>
