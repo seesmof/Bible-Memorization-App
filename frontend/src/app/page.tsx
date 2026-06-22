@@ -247,11 +247,19 @@ export default function Page() {
               value={verseNumber}
               onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
             >
-              {verseOptions.map((verse, index) => (
-                <option value={verse} key={index}>
-                  {verse}
-                </option>
-              ))}
+              {verseOptions && verseOptions.length > 0
+                ? verseOptions.map((verse, index) => (
+                    <option value={verse} key={index}>
+                      {verse}
+                    </option>
+                  ))
+                : Array.from({ length: 176 }, (_, i) => i + 1).map(
+                    (verse, index) => (
+                      <option value={verse} key={index}>
+                        {verse}
+                      </option>
+                    ),
+                  )}
             </select>
           </div>
 
