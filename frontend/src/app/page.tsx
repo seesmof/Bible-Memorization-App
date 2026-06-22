@@ -203,7 +203,7 @@ export default function Page() {
           {/* Verse Number Input */}
           <div className="flex flex-col gap-1 sm:flex-1">
             <label htmlFor="verseSelect" className="text-sm label">
-              Розділ
+              Вірш
             </label>
             <input
               type="number"
