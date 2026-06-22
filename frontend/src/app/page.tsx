@@ -111,9 +111,12 @@ export default function Page() {
       .abbr;
     const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/${verseNumber}`;
     console.log(url);
-    const data = await fetch(url);
-    const response = await data.json();
-    return response.verse;
+    const response = await fetch(url);
+
+    if (!response.ok) throw new Error(response.statusText);
+
+    const data = await response.json();
+    return data.verse;
   };
 
   useEffect(() => {
@@ -141,7 +144,6 @@ export default function Page() {
       text: verse,
       reference: calculatedReference,
     };
-
     setVerses([newVerse, ...verses]);
   };
 
@@ -153,46 +155,67 @@ export default function Page() {
           onSubmit={handleSubmit}
         >
           {/* Book Select */}
-          <select
-            className="select w-full sm:flex-1"
-            value={BookName}
-            onChange={(e) => setBookName(e.target.value)}
-          >
-            {BibleBooksData.map((Book, index) => (
-              <option value={Book.name} key={index}>
-                {Book.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col gap-1 sm:flex-1">
+            <label htmlFor="BookSelect" className="text-sm label">
+              Книга
+            </label>
+            <select
+              className="select w-full"
+              value={BookName}
+              onChange={(e) => setBookName(e.target.value)}
+              id="BookSelect"
+            >
+              {BibleBooksData.map((Book, index) => (
+                <option value={Book.name} key={index}>
+                  {Book.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Chapter Select */}
-          <select
-            className="select w-full sm:flex-1"
-            value={chapterNumber}
-            onChange={(e) => setChapterNumber(Number.parseInt(e.target.value))}
-          >
-            {Array.from(
-              new Array(
-                BibleBooksData.filter((Book) => Book.name === BookName)[0]
-                  .numberOfChapters,
-              ),
-              (x, i) => i + 1,
-            ).map((number, index) => (
-              <option value={number} key={index}>
-                {number}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col gap-1 sm:flex-1">
+            <label htmlFor="chapterSelect" className="text-sm label">
+              Розділ
+            </label>
+            <select
+              className="select w-full"
+              value={chapterNumber}
+              onChange={(e) =>
+                setChapterNumber(Number.parseInt(e.target.value))
+              }
+              id="chapterSelect"
+            >
+              {Array.from(
+                new Array(
+                  BibleBooksData.filter((Book) => Book.name === BookName)[0]
+                    .numberOfChapters,
+                ),
+                (x, i) => i + 1,
+              ).map((number, index) => (
+                <option value={number} key={index}>
+                  {number}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Verse Number Input */}
-          <input
-            type="number"
-            className="input w-full sm:flex-1"
-            value={verseNumber}
-            onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
-            min={1}
-          />
-          <button className="btn">Add</button>
+          <div className="flex flex-col gap-1 sm:flex-1">
+            <label htmlFor="verseSelect" className="text-sm label">
+              Розділ
+            </label>
+            <input
+              type="number"
+              className="input w-full sm:flex-1"
+              value={verseNumber}
+              onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
+              min={1}
+              id="verseSelect"
+            />
+          </div>
+
+          <button className="btn self-end">Додати</button>
         </form>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
