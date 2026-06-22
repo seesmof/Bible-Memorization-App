@@ -139,7 +139,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    let saved = localStorage.getItem("verses");
+    const saved = localStorage.getItem("verses");
     if (saved !== null) setVerses(JSON.parse(saved));
     else setVerses([]);
   }, []);
