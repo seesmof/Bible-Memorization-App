@@ -31,7 +31,7 @@ const Card = ({
           );
           setVerses(versesWithoutThis);
         }}
-        className="absolute text-sm text-red-700 top-3 right-3"
+        className="absolute text-sm text-red-700 top-3 right-3 cursor-pointer"
       >
         Видалити
       </button>
