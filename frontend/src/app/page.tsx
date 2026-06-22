@@ -7,15 +7,34 @@ interface Verse {
   reference: string;
 }
 
-const Card = ({ verse }: { verse: Verse }) => {
+const Card = ({
+  verse,
+  verses,
+  setVerses,
+}: {
+  verse: Verse;
+  verses: Verse[];
+  setVerses: React.Dispatch<React.SetStateAction<Verse[]>>;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <div
-      className="bg-white rounded-md p-3 aspect-square flex justify-center items-center text-center cursor-pointer"
+      className="bg-white rounded-md p-3 aspect-square flex justify-center items-center text-center cursor-pointer relative"
       onClick={() => setIsOpen((isOpen) => !isOpen)}
     >
       {isOpen ? <p>{verse.text}</p> : <p>{verse.reference}</p>}
+      <button
+        onClick={() => {
+          const versesWithoutThis = verses.filter(
+            (thisVerse: Verse) => thisVerse.reference !== verse.reference,
+          );
+          setVerses(versesWithoutThis);
+        }}
+        className="absolute text-sm text-red-700 top-3 right-3"
+      >
+        Видалити
+      </button>
     </div>
   );
 };
@@ -220,7 +239,14 @@ export default function Page() {
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
           {verses && verses.length !== 0 ? (
-            verses.map((verse, index) => <Card verse={verse} key={index} />)
+            verses.map((verse, index) => (
+              <Card
+                verses={verses}
+                setVerses={setVerses}
+                verse={verse}
+                key={index}
+              />
+            ))
           ) : (
             <p>Будь ласка, додайте вірші...</p>
           )}
