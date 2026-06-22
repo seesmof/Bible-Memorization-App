@@ -243,7 +243,7 @@ export default function Page() {
             </label>
             <select
               id="verseSelect"
-              className="select"
+              className="select w-full"
               value={verseNumber}
               onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
             >
