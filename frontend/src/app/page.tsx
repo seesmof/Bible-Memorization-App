@@ -196,7 +196,7 @@ export default function Page() {
               Книга
             </label>
             <select
-              className="select w-full"
+              className="select w-full sm:w-44"
               value={BookName}
               onChange={(e) => setBookName(e.target.value)}
               id="BookSelect"
@@ -215,7 +215,7 @@ export default function Page() {
               Розділ
             </label>
             <select
-              className="select w-full"
+              className="select w-full sm:w-44"
               value={chapterNumber}
               onChange={(e) =>
                 setChapterNumber(Number.parseInt(e.target.value))
