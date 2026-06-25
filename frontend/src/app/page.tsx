@@ -20,7 +20,7 @@ const Card = ({
 
   return (
     <div
-      className="bg-white rounded-md p-3 aspect-square flex justify-center items-center text-center cursor-pointer relative"
+      className="bg-white dark:bg-stone-900 rounded-md p-3 aspect-square flex justify-center items-center text-center cursor-pointer relative"
       onClick={() => setIsOpen((isOpen) => !isOpen)}
     >
       {isOpen ? <p>{verse.text}</p> : <p>{verse.reference}</p>}
@@ -184,10 +184,10 @@ export default function Page() {
   };
 
   return (
-    <div className="bg-sky-50 min-h-screen">
+    <div className="bg-sky-50 dark:bg-sky-950 min-h-screen">
       <div className="max-w-3xl mx-auto flex items-center justify-center flex-col p-3 gap-3">
         <form
-          className="bg-white rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full"
+          className="bg-white dark:bg-stone-900 rounded-md p-3 flex flex-col sm:flex-row gap-3 w-full"
           onSubmit={handleSubmit}
         >
           {/* Book Select */}
