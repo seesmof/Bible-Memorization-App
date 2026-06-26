@@ -252,13 +252,13 @@ export default function Page() {
           </div>
 
           {/* Verse Number Input */}
-          <div className="flex flex-col gap-1 sm:flex-1">
+          <div className="flex flex-col gap-1 sm:flex-1 overflow-hidden">
             <label htmlFor="verseSelect" className="text-sm label">
               Вірш
             </label>
             <select
               id="verseSelect"
-              className="select w-full overflow-hidden"
+              className="select w-full"
               value={verseNumber}
               onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
             >
