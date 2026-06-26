@@ -124,7 +124,12 @@ export default function Page() {
   const [verseNumber, setVerseNumber] = useState<number>(1);
 
   const [verses, setVerses] = useState<Verse[]>([]);
-  const [verseOptions, setVerseOptions] = useState([]);
+  const [verseOptions, setVerseOptions] = useState<
+    {
+      number: number;
+      verse: string;
+    }[]
+  >([]);
 
   const fetchVerse = async () => {
     const BookAbbr = BibleBooksData.find(
@@ -144,13 +149,14 @@ export default function Page() {
       const BookAbbr = BibleBooksData.find(
         (Book) => Book.name === BookName,
       )?.abbr;
-      const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/verse`;
+      // const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/verse`;
+      const url = `https://open-bible-api.vercel.app/${BookAbbr}/${chapterNumber}`;
       const response = await fetch(url);
 
       if (!response.ok) throw new Error(response.statusText);
 
       const data = await response.json();
-      if (data) setVerseOptions(data.verses);
+      if (data) setVerseOptions(data);
     };
     fetchVerses();
   }, [BookName, chapterNumber]);
@@ -243,14 +249,14 @@ export default function Page() {
             </label>
             <select
               id="verseSelect"
-              className="select w-full"
+              className="select w-full overflow-hidden"
               value={verseNumber}
               onChange={(e) => setVerseNumber(Number.parseInt(e.target.value))}
             >
               {verseOptions && verseOptions.length > 0
                 ? verseOptions.map((verse, index) => (
-                    <option value={verse} key={index}>
-                      {verse}
+                    <option value={verse.number} key={index}>
+                      {verse.number}. {verse.verse}
                     </option>
                   ))
                 : Array.from({ length: 176 }, (_, i) => i + 1).map(
