@@ -140,19 +140,6 @@ export default function Page() {
     }[]
   >([]);
 
-  const fetchVerse = async () => {
-    const BookAbbr = BibleBooksData.find(
-      (Book) => Book.name === BookName,
-    )?.abbr;
-    const url = `${apiUrl}/${BookAbbr}/${chapterNumber}/${verseNumber}`;
-    const response = await fetch(url);
-
-    if (!response.ok) throw new Error(response.statusText);
-
-    const data = await response.json();
-    return data.verse;
-  };
-
   useEffect(() => {
     const fetchVerses = async () => {
       const BookAbbr = BibleBooksData.find(
@@ -180,10 +167,10 @@ export default function Page() {
     localStorage.setItem("verses", JSON.stringify(verses));
   }, [verses]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const verse = await fetchVerse();
-    addCard(verse);
+    const verse = verseOptions.find((option) => option.number == verseNumber);
+    addCard(verse!.verse);
   };
 
   const addCard = (verse: string) => {
@@ -278,7 +265,9 @@ export default function Page() {
             </select>
           </div>
 
-          <button className="btn self-end">Додати</button>
+          <button className="btn self-end" type="submit">
+            Додати
+          </button>
         </form>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
