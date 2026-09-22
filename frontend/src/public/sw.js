@@ -1,4 +1,4 @@
-const CACHE = "bible-mem-v1";
+const CACHE = "bible-mem-v2";
 const CORE = ["/", "/manifest.webmanifest", "/icon.svg", "/data/books.json"];
 
 self.addEventListener("install", (event) => {

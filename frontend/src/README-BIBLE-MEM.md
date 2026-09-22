@@ -25,3 +25,10 @@ npm run build    # parse + production build
 3. Open the URL on Android Chrome → ⋮ → "Add to Home screen" to install.
 
 Deck + progress persist in `localStorage`; book JSON is cached by `public/sw.js` for offline use.
+
+## Localization
+
+UI defaults to Ukrainian with a UA/EN toggle (persisted in `localStorage`).
+Book names ship in both languages (`nameUk` in the generated JSON) and the
+reference box accepts Ukrainian input: `Ів 3:16`, `Пс 23:1`, `Буття 1:1`,
+`1 Ів 5:11`, `Об'явлення 22:21`, `Мт 5:3` — as well as English (`JHN 3:16`).

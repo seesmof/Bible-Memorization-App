@@ -1,17 +1,21 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import type { Lang } from "../lib/bible";
 import { blankWords, firstLetters, refLabel, scoreTyping, type DeckItem } from "../lib/deck";
+import type { Strings } from "../lib/i18n";
 
 type Mode = "flash" | "blank" | "letters" | "typing";
 
 interface Props {
   deck: DeckItem[];
+  lang: Lang;
+  t: Strings;
   onMark: (id: string, ok: boolean) => void;
   onBrowse: () => void;
 }
 
-export default function Practice({ deck, onMark, onBrowse }: Props) {
+export default function Practice({ deck, lang, t, onMark, onBrowse }: Props) {
   const [mode, setMode] = useState<Mode>("flash");
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -24,16 +28,23 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
     return [...deck].sort((a, b) => rank[a.status] - rank[b.status] || a.attempts - b.attempts);
   }, [deck]);
 
+  const modes: [Mode, string][] = [
+    ["flash", t.modeFlash],
+    ["blank", t.modeBlank],
+    ["letters", t.modeLetters],
+    ["typing", t.modeTyping],
+  ];
+
   if (queue.length === 0) {
     return (
       <div className="rounded-2xl border p-6 text-center">
-        <h2 className="text-lg font-semibold">Nothing to practice</h2>
-        <p className="mt-1 text-sm opacity-70">Add at least one verse first.</p>
+        <h2 className="text-lg font-semibold">{t.practiceEmptyTitle}</h2>
+        <p className="mt-1 text-sm opacity-70">{t.practiceEmptyBody}</p>
         <button
           onClick={onBrowse}
           className="mt-4 rounded-lg bg-black px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-black"
         >
-          Browse verses
+          {t.browseVerses}
         </button>
       </div>
     );
@@ -58,14 +69,7 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap gap-1.5">
-        {(
-          [
-            ["flash", "Flashcards"],
-            ["blank", "Fill blank"],
-            ["letters", "First letters"],
-            ["typing", "Type it"],
-          ] as [Mode, string][]
-        ).map(([m, label]) => (
+        {modes.map(([m, label]) => (
           <button
             key={m}
             onClick={() => {
@@ -84,11 +88,11 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
       </div>
 
       <p className="text-sm opacity-60">
-        Card {Math.min(index, queue.length - 1) + 1} of {queue.length} · weakest first
+        {t.card} {Math.min(index, queue.length - 1) + 1} {t.of} {queue.length} · {t.weakestFirst}
       </p>
 
       <article className="rounded-2xl border p-5">
-        <p className="text-sm font-semibold">{refLabel(card)}</p>
+        <p className="text-sm font-semibold">{refLabel(card, lang)}</p>
 
         {mode === "flash" && (
           <>
@@ -97,7 +101,7 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
                 onClick={() => setRevealed(true)}
                 className="mt-3 w-full rounded-xl bg-black/5 p-6 text-sm dark:bg-white/10"
               >
-                Tap to reveal the verse…
+                {t.tapReveal}
               </button>
             ) : (
               <p className="mt-3 text-lg leading-relaxed">{card.text}</p>
@@ -113,7 +117,7 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
                 onClick={() => setRevealed(true)}
                 className="mt-3 rounded-lg border px-3 py-1.5 text-sm"
               >
-                Show full verse
+                {t.showFull}
               </button>
             ) : (
               <p className="mt-2 border-t pt-2 leading-relaxed">{card.text}</p>
@@ -129,7 +133,7 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
                 onClick={() => setRevealed(true)}
                 className="mt-3 rounded-lg border px-3 py-1.5 text-sm"
               >
-                Reveal
+                {t.reveal}
               </button>
             ) : (
               <p className="mt-2 border-t pt-2 leading-relaxed">{card.text}</p>
@@ -144,7 +148,7 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
               value={typed}
               onChange={(e) => setTyped(e.target.value)}
               rows={4}
-              placeholder="Type the verse from memory…"
+              placeholder={t.typePh}
               className="mt-3 w-full rounded-lg border p-3 text-sm"
             />
             <div className="mt-2 flex items-center gap-2">
@@ -152,11 +156,11 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
                 onClick={gradeTyping}
                 className="rounded-lg border px-3 py-1.5 text-sm font-medium"
               >
-                Check
+                {t.check}
               </button>
               {score !== null && (
                 <span className={`text-sm font-semibold ${score >= 80 ? "text-green-600" : score >= 50 ? "text-amber-600" : "text-red-600"}`}>
-                  {score}% correct
+                  {score}% · {t.correctWord}
                 </span>
               )}
             </div>
@@ -171,13 +175,13 @@ export default function Practice({ deck, onMark, onBrowse }: Props) {
             onClick={() => next(false)}
             className="flex-1 rounded-lg border px-3 py-2 text-sm"
           >
-            ✗ Still learning
+            {t.stillLearning}
           </button>
           <button
             onClick={() => next(true)}
             className="flex-1 rounded-lg bg-black px-3 py-2 text-sm font-medium text-white dark:bg-white dark:text-black"
           >
-            ✓ Got it
+            {t.gotIt}
           </button>
         </div>
       </article>

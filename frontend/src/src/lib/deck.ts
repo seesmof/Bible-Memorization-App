@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { formatRef, refId } from "./bible";
+import { BOOK_UK, formatRef, refId, type Lang } from "./bible";
 
 export type VerseStatus = "new" | "learning" | "mastered";
 
@@ -7,6 +7,7 @@ export interface DeckItem {
   id: string;
   code: string;
   name: string;
+  nameUk?: string;
   chapter: number;
   verse: number;
   text: string;
@@ -46,7 +47,14 @@ export function useDeck() {
   }, [deck]);
 
   const add = useCallback(
-    (v: { code: string; name: string; chapter: number; verse: number; text: string }) => {
+    (v: {
+      code: string;
+      name: string;
+      nameUk?: string;
+      chapter: number;
+      verse: number;
+      text: string;
+    }) => {
       const id = refId(v.code, v.chapter, v.verse);
       setDeck((prev) => {
         if (prev.some((d) => d.id === id)) return prev;
@@ -56,6 +64,7 @@ export function useDeck() {
             id,
             code: v.code,
             name: v.name,
+            nameUk: v.nameUk,
             chapter: v.chapter,
             verse: v.verse,
             text: v.text,
@@ -94,8 +103,11 @@ export function useDeck() {
   return { deck, add, remove, mark, has };
 }
 
-export function refLabel(d: Pick<DeckItem, "name" | "chapter" | "verse">) {
-  return formatRef(d);
+export function refLabel(d: Pick<DeckItem, "code" | "name" | "chapter" | "verse"> & { nameUk?: string }, lang: Lang = "en") {
+  return formatRef(
+    { ...d, nameUk: d.nameUk ?? BOOK_UK[d.code] ?? d.name },
+    lang
+  );
 }
 
 // --- practice helpers (pure, tested via build) ---
