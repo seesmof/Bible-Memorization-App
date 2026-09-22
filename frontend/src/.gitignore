@@ -33,9 +33,6 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# generated bible data (rebuilt by npm run parse:bible / prebuild)
-/public/data/*.json
-
 # vercel
 .vercel
 
