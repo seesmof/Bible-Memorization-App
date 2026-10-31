@@ -1,6 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import bible from "../bible.json";
+
+type BibleData = Record<string, Record<string, Record<string, string>>>;
+const bibleData = bible as unknown as BibleData;
 
 interface Verse {
   text: string;
