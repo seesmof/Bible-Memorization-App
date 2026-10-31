@@ -21,7 +21,7 @@ export type BibleBook = {
 };
 
 export default function Page() {
-  const [BookName, setBookName] = useState<string>(BibleBooksData[0].name);
+  const [bookName, setBookName] = useState<string>(BibleBooksData[0].name);
   const [chapterNumber, setChapterNumber] = useState<number>(1);
   const [verseNumber, setVerseNumber] = useState<number>(1);
   const [input, setInput] = useState<string>("");
@@ -37,7 +37,7 @@ export default function Page() {
   useEffect(() => {
     const fetchVerses = async () => {
       const bookAbbr = BibleBooksData.find(
-        (book) => book.name === BookName,
+        (book) => book.name === bookName,
       )?.abbr;
 
       if (!bookAbbr) return;
@@ -52,7 +52,7 @@ export default function Page() {
       if (data) setVerseOptions(data);
     };
     fetchVerses();
-  }, [BookName, chapterNumber]);
+  }, [bookName, chapterNumber]);
 
   useEffect(() => {
     const saved = localStorage.getItem("verses");
@@ -67,11 +67,12 @@ export default function Page() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const verse = verseOptions.find((option) => option.number == verseNumber);
-    addCard(verse!.verse);
+    if (!verse) return;
+    addCard(verse.verse);
   };
 
   const addCard = (verse: string) => {
-    const calculatedReference = `${BookName} ${chapterNumber}:${verseNumber}`;
+    const calculatedReference = `${bookName} ${chapterNumber}:${verseNumber}`;
     const references = verses.map((verse) => verse.reference);
     if (references.includes(calculatedReference)) return;
 
@@ -96,7 +97,7 @@ export default function Page() {
             </label>
             <select
               className="select w-full sm:w-44"
-              value={BookName}
+              value={bookName}
               onChange={(e) => setBookName(e.target.value)}
               id="BookSelect"
             >
@@ -123,7 +124,7 @@ export default function Page() {
             >
               {Array.from(
                 new Array(
-                  BibleBooksData.filter((Book) => Book.name === BookName)[0]
+                  BibleBooksData.filter((Book) => Book.name === bookName)[0]
                     .numberOfChapters,
                 ),
                 (x, i) => i + 1,
