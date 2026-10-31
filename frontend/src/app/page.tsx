@@ -131,6 +131,7 @@ export default function Page() {
   const [BookName, setBookName] = useState<string>(BibleBooksData[0].name);
   const [chapterNumber, setChapterNumber] = useState<number>(1);
   const [verseNumber, setVerseNumber] = useState<number>(1);
+  const [input, setInput] = useState<string>("");
 
   const [verses, setVerses] = useState<Verse[]>([]);
   const [verseOptions, setVerseOptions] = useState<
@@ -270,16 +271,34 @@ export default function Page() {
           </button>
         </form>
 
+        <article className="bg-white dark:bg-stone-900 rounded-md p-3 flex w-full">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="input w-full"
+            placeholder="Шукайте доданий вірш тут..."
+          />
+        </article>
+
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
           {verses && verses.length !== 0 ? (
-            verses.map((verse, index) => (
-              <Card
-                verses={verses}
-                setVerses={setVerses}
-                verse={verse}
-                key={index}
-              />
-            ))
+            verses
+              .filter(
+                (verse) =>
+                  verse.reference
+                    .toLowerCase()
+                    .includes(input?.toLowerCase()) ||
+                  verse.text.toLowerCase().includes(input?.toLowerCase()),
+              )
+              .map((verse, index) => (
+                <Card
+                  verses={verses}
+                  setVerses={setVerses}
+                  verse={verse}
+                  key={index}
+                />
+              ))
           ) : (
             <p>Будь ласка, додайте вірші...</p>
           )}
