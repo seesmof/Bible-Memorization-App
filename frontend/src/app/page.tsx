@@ -168,7 +168,7 @@ export default function Page() {
           </button>
         </form>
 
-        <article className="bg-white dark:bg-stone-900 rounded-md p-3 flex w-full">
+        <article className="bg-white fle flex-row gap-3 dark:bg-stone-900 rounded-md p-3 flex w-full">
           <input
             type="text"
             value={input}
@@ -176,6 +176,9 @@ export default function Page() {
             className="input w-full"
             placeholder="Шукайте доданий вірш тут..."
           />
+          <button onClick={() => setInput("")} className="btn">
+            Очистити
+          </button>
         </article>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full">
